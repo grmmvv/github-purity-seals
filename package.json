@@ -1,0 +1,33 @@
+{
+  "name": "github-purity-seals",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Transform GitHub into a Forge World of the Adeptus Mechanicus.",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "precommit": "lint-staged",
+    "prepare": "husky",
+    "typecheck": "tsc --noEmit",
+    "validate:manifest": "node scripts/validate-manifest.mjs",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run build && npm run validate:manifest"
+  },
+  "lint-staged": {
+    "*.{css,json,md,mjs,ts,yml,yaml}": "prettier --write",
+    "*.{mjs,ts}": "eslint --fix"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "eslint": "^9.31.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.36.0"
+  },
+  "license": "MIT"
+}

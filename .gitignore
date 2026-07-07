@@ -141,3 +141,9 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+dist/
+
+# Local identity/key helper scripts
+generate-personal-gpg-key.sh
+generate-personal-ssh-key.sh
+setup-personal-github.sh

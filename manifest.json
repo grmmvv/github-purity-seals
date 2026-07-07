@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "GitHub: Adeptus Mechanicus Edition",
+  "description": "Transform GitHub terminology into Adeptus Mechanicus-inspired interface language.",
+  "version": "0.1.0",
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*"],
+      "js": ["dist/terminology/replacements.js", "dist/content/content.js"],
+      "css": ["src/ui/github-theme.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {},
+  "permissions": []
+}

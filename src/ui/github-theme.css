@@ -1,0 +1,29 @@
+:root[data-omnissiah-observed='true'] {
+  --omni-mars-red: #7f1d1d;
+  --omni-brass: #9a6a2f;
+  --omni-parchment: #f4ead0;
+}
+
+:root[data-omnissiah-observed='true'] .State--open,
+:root[data-omnissiah-observed='true'] .State--merged,
+:root[data-omnissiah-observed='true'] .State--closed,
+:root[data-omnissiah-observed='true'] .Label {
+  border-radius: 3px;
+}
+
+:root[data-omnissiah-observed='true'] .State--merged {
+  background-color: var(--omni-mars-red);
+}
+
+:root[data-omnissiah-observed='true'] .merge-status-list .merge-status-item {
+  border-left-color: var(--omni-brass);
+}
+
+:root[data-omnissiah-observed='true'] .octicon-check,
+:root[data-omnissiah-observed='true'] .color-fg-success {
+  color: var(--omni-brass) !important;
+}
+
+:root[data-omnissiah-observed='true'] .flash-success {
+  border-color: var(--omni-brass);
+}
