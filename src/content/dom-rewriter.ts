@@ -12,12 +12,14 @@ export interface DomRewriterOptions {
   readonly window: RewriterWindow;
   readonly transformText: TextTransformer;
   readonly extensionMark?: string;
+  readonly themeMark?: string;
 }
 
 const elementNode = 1;
 const textNode = 3;
 const documentNode = 9;
 const attributeNames = ['aria-label', 'title', 'placeholder'] as const;
+const visualRoleAttribute = 'data-omnissiah-role';
 const skipElements = new Set([
   'CODE',
   'KBD',
@@ -40,6 +42,7 @@ const editableSelector = "input, textarea, select, [contenteditable=''], [conten
 
 export function installDomRewriter(options: DomRewriterOptions): MutationObserver {
   const extensionMark = options.extensionMark ?? 'data-omnissiah-observed';
+  const themeMark = options.themeMark ?? 'data-omnissiah-theme';
   const rewriter = createDomRewriter(options);
   const observer = new options.window.MutationObserver((mutations) => {
     for (const mutation of mutations) {
@@ -68,6 +71,7 @@ export function installDomRewriter(options: DomRewriterOptions): MutationObserve
   });
 
   options.document.documentElement.setAttribute(extensionMark, 'true');
+  options.document.documentElement.setAttribute(themeMark, 'forge-world');
   rewriter.scheduleRewrite(options.document.body);
 
   return observer;
@@ -170,7 +174,10 @@ export function createDomRewriter(options: DomRewriterOptions): {
       if (node.nodeType === textNode) {
         rewriteTextNode(node as Text);
       } else if (node.nodeType === elementNode) {
-        rewriteAttributes(node as Element);
+        const element = node as Element;
+
+        rewriteAttributes(element);
+        markVisualRole(element);
       }
     }
   }
@@ -220,6 +227,47 @@ export function createDomRewriter(options: DomRewriterOptions): {
     }
 
     return Boolean(element.closest(skipSelector));
+  }
+
+  function markVisualRole(element: Element): void {
+    if (shouldSkipElement(element)) {
+      return;
+    }
+
+    const text = `${element.textContent} ${element.getAttribute('aria-label') ?? ''} ${
+      element.getAttribute('title') ?? ''
+    }`;
+    const role = detectVisualRole(text);
+
+    if (role) {
+      element.setAttribute(visualRoleAttribute, role);
+    } else {
+      element.removeAttribute(visualRoleAttribute);
+    }
+  }
+
+  function detectVisualRole(value: string): string | null {
+    if (/\b(Blessed|Sanctified|Purity Trials Blessed)\b/i.test(value)) {
+      return 'blessed';
+    }
+
+    if (/\b(Tainted|Failed|Failure|Error|Corruption)\b/i.test(value)) {
+      return 'tainted';
+    }
+
+    if (/\b(Liturgies|Ritual|Rituals|Purity Trial|Purity Trials)\b/i.test(value)) {
+      return 'ritual';
+    }
+
+    if (/\b(Sacred Release|Sacred Releases|Sacred Relic|Sacred Relics)\b/i.test(value)) {
+      return 'relic';
+    }
+
+    if (/\b(Rite of Integration|Rites of Integration|Scrutiny|Scrutinies)\b/i.test(value)) {
+      return 'inquisition';
+    }
+
+    return null;
   }
 
   function getProcessedAttributeValue(

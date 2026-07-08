@@ -1,29 +1,101 @@
-:root[data-omnissiah-observed='true'] {
-  --omni-mars-red: #7f1d1d;
-  --omni-brass: #9a6a2f;
-  --omni-parchment: #f4ead0;
+:root[data-omnissiah-theme='forge-world'] {
+  --omni-mars-red: #8f2323;
+  --omni-mars-red-deep: #5f1518;
+  --omni-brass: #b8873f;
+  --omni-brass-dim: #7d5a2b;
+  --omni-parchment: #ead9b0;
+  --omni-taint: #9b2c2c;
+  --omni-glow: rgba(184, 135, 63, 0.22);
 }
 
-:root[data-omnissiah-observed='true'] .State--open,
-:root[data-omnissiah-observed='true'] .State--merged,
-:root[data-omnissiah-observed='true'] .State--closed,
-:root[data-omnissiah-observed='true'] .Label {
+:root[data-omnissiah-theme='forge-world'] .State,
+:root[data-omnissiah-theme='forge-world'] .State--open,
+:root[data-omnissiah-theme='forge-world'] .State--merged,
+:root[data-omnissiah-theme='forge-world'] .State--closed,
+:root[data-omnissiah-theme='forge-world'] .Label,
+:root[data-omnissiah-theme='forge-world'] .IssueLabel {
   border-radius: 3px;
 }
 
-:root[data-omnissiah-observed='true'] .State--merged {
+:root[data-omnissiah-theme='forge-world'] .State--merged {
   background-color: var(--omni-mars-red);
 }
 
-:root[data-omnissiah-observed='true'] .merge-status-list .merge-status-item {
+:root[data-omnissiah-theme='forge-world'] .State--open {
+  background-color: var(--omni-mars-red-deep);
+}
+
+:root[data-omnissiah-theme='forge-world'] .merge-status-list .merge-status-item {
   border-left-color: var(--omni-brass);
 }
 
-:root[data-omnissiah-observed='true'] .octicon-check,
-:root[data-omnissiah-observed='true'] .color-fg-success {
+:root[data-omnissiah-theme='forge-world'] .octicon-check,
+:root[data-omnissiah-theme='forge-world'] .color-fg-success {
   color: var(--omni-brass) !important;
 }
 
-:root[data-omnissiah-observed='true'] .flash-success {
+:root[data-omnissiah-theme='forge-world'] .flash-success {
   border-color: var(--omni-brass);
+}
+
+:root[data-omnissiah-theme='forge-world'] .BorderGrid-cell,
+:root[data-omnissiah-theme='forge-world'] .Layout-sidebar .BorderGrid-row {
+  border-color: color-mix(in srgb, var(--borderColor-default, #30363d) 76%, var(--omni-brass) 24%);
+}
+
+:root[data-omnissiah-theme='forge-world'] .topic-tag,
+:root[data-omnissiah-theme='forge-world'] .Label,
+:root[data-omnissiah-theme='forge-world'] .IssueLabel {
+  border-color: color-mix(in srgb, currentColor 28%, var(--omni-brass) 72%);
+  box-shadow: inset 0 0 0 1px rgba(184, 135, 63, 0.08);
+}
+
+:root[data-omnissiah-theme='forge-world'] [data-omnissiah-role] {
+  position: relative;
+}
+
+:root[data-omnissiah-theme='forge-world'] [data-omnissiah-role]::before {
+  display: inline-block;
+  margin-right: 0.35em;
+  color: var(--omni-brass);
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+}
+
+:root[data-omnissiah-theme='forge-world'] [data-omnissiah-role='blessed']::before {
+  content: '◆';
+  color: var(--omni-brass);
+  text-shadow: 0 0 8px var(--omni-glow);
+}
+
+:root[data-omnissiah-theme='forge-world'] [data-omnissiah-role='tainted']::before {
+  content: '✕';
+  color: var(--omni-taint);
+}
+
+:root[data-omnissiah-theme='forge-world'] [data-omnissiah-role='ritual']::before {
+  content: '⚙';
+  color: var(--omni-brass);
+}
+
+:root[data-omnissiah-theme='forge-world'] [data-omnissiah-role='relic']::before {
+  content: '◈';
+  color: var(--omni-parchment);
+}
+
+:root[data-omnissiah-theme='forge-world'] [data-omnissiah-role='inquisition']::before {
+  content: '◇';
+  color: var(--omni-mars-red);
+}
+
+:root[data-omnissiah-theme='forge-world'] a[data-omnissiah-role]::before,
+:root[data-omnissiah-theme='forge-world'] button[data-omnissiah-role]::before {
+  text-decoration: none;
+}
+
+:root[data-omnissiah-theme='forge-world'] .Box,
+:root[data-omnissiah-theme='forge-world'] .TimelineItem-badge,
+:root[data-omnissiah-theme='forge-world'] .merge-status-list {
+  box-shadow: inset 0 0 0 1px rgba(184, 135, 63, 0.04);
 }
