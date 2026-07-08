@@ -41,3 +41,5 @@ npm run check
 ```
 
 After editing extension files, run `npm run build`, then reload the unpacked extension from `chrome://extensions`.
+
+Manual smoke test steps live in [`docs/smoke-test.md`](docs/smoke-test.md).
