@@ -15,7 +15,18 @@ describe('representative GitHub page smoke fixtures', () => {
         <nav>
           <a title="Pull requests">Pull Requests</a>
           <a>Actions</a>
+          <a>Issues</a>
+          <a>Projects</a>
+          <a>Security and quality</a>
+          <a>Insights</a>
         </nav>
+        <section>Folders and files</section>
+        <span>Latest commit</span>
+        <span>History</span>
+        <aside>About</aside>
+        <button>Fork</button>
+        <button>Star</button>
+        <strong>Public</strong>
         <div class="blob-code-content">Repository branch release</div>
       </main>
     `);
@@ -23,7 +34,18 @@ describe('representative GitHub page smoke fixtures', () => {
     expect(document.querySelector('h1')?.textContent).toBe('Reliquary');
     expect(document.querySelector('nav a')?.textContent).toBe('Rites of Integration');
     expect(document.querySelector('nav a')?.getAttribute('title')).toBe('Rites of Integration');
-    expect(document.querySelectorAll('nav a')[1]?.textContent).toBe('Actions');
+    expect(document.querySelectorAll('nav a')[1]?.textContent).toBe('Liturgies');
+    expect(document.querySelectorAll('nav a')[2]?.textContent).toBe('Anomalies');
+    expect(document.querySelectorAll('nav a')[3]?.textContent).toBe('Endeavors');
+    expect(document.querySelectorAll('nav a')[4]?.textContent).toBe('Purity and Integrity');
+    expect(document.querySelectorAll('nav a')[5]?.textContent).toBe('Auguries');
+    expect(document.querySelector('section')?.textContent).toBe('Vaults and Schematics');
+    expect(document.querySelectorAll('span')[0]?.textContent).toBe('Latest Inscription');
+    expect(document.querySelectorAll('span')[1]?.textContent).toBe('Chronicle');
+    expect(document.querySelector('aside')?.textContent).toBe('Dossier');
+    expect(document.querySelectorAll('button')[0]?.textContent).toBe('Diverge');
+    expect(document.querySelectorAll('button')[1]?.textContent).toBe('Benediction');
+    expect(document.querySelector('strong')?.textContent).toBe('Unsealed');
     expect(document.querySelector('.blob-code-content')?.textContent).toBe('Repository branch release');
   });
 
@@ -48,12 +70,14 @@ describe('representative GitHub page smoke fixtures', () => {
     const document = rewriteFixture(`
       <main>
         <h1>GitHub Actions</h1>
+        <nav>Actions</nav>
         <section>Workflow checks failed</section>
         <p>Waiting for checks</p>
       </main>
     `);
 
     expect(document.querySelector('h1')?.textContent).toBe('Liturgies');
+    expect(document.querySelector('nav')?.textContent).toBe('Liturgies');
     expect(document.querySelector('section')?.textContent).toBe('Ritual purity trials tainted');
     expect(document.querySelector('p')?.textContent).toBe("Awaiting the Omnissiah's blessing");
   });
@@ -62,16 +86,20 @@ describe('representative GitHub page smoke fixtures', () => {
     const document = rewriteFixture(`
       <main>
         <h1>Release</h1>
+        <h2>Releases</h2>
         <ul>
           <li>Artifact</li>
           <li>Unsigned artifact</li>
+          <li>Tags</li>
         </ul>
       </main>
     `);
 
     expect(document.querySelector('h1')?.textContent).toBe('Sacred Release');
+    expect(document.querySelector('h2')?.textContent).toBe('Sacred Releases');
     expect(document.querySelectorAll('li')[0]?.textContent).toBe('Sacred Relic');
     expect(document.querySelectorAll('li')[1]?.textContent).toBe('Relic without a Purity Seal');
+    expect(document.querySelectorAll('li')[2]?.textContent).toBe('Sigils');
   });
 
   it('leaves code file content untouched while rewriting surrounding page labels', () => {

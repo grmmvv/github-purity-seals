@@ -11,6 +11,9 @@ describe('createTextTransformer', () => {
     expect(transformText('checks passed')).toBe('purity trials blessed');
     expect(transformText('Pull Request')).toBe('Rite of Integration');
     expect(transformText('GitHub Actions')).toBe('Liturgies');
+    expect(transformText('Security and quality')).toBe('Purity and Integrity');
+    expect(transformText('Latest commit')).toBe('Latest Inscription');
+    expect(transformText('Folders and files')).toBe('Vaults and Schematics');
   });
 
   it('uses explicit case-sensitive mappings', () => {
@@ -42,13 +45,24 @@ describe('createTextTransformer', () => {
     expect(transformText('deploy')).toBe('dispatch to Holy Terra');
   });
 
+  it('covers common GitHub repository navigation terms', () => {
+    expect(transformText('Issues Actions Projects Insights')).toBe('Anomalies Liturgies Endeavors Auguries');
+    expect(transformText('Fork Star Tags Notifications About Public History')).toBe(
+      'Diverge Benediction Sigils Vox Alerts Dossier Unsealed Chronicle',
+    );
+    expect(transformText('Go to file')).toBe('Locate Schematic');
+    expect(transformText('View all files')).toBe('View all Schematics');
+  });
+
   it('preserves empty and null input', () => {
     expect(transformText('')).toBe('');
     expect(transformText(null)).toBeNull();
   });
 
   it('does not keep transforming already transformed text', () => {
-    const once = transformText('Pull Request checks passed with Release and releases');
+    const once = transformText(
+      'Pull Request checks passed with Release and releases, Issues, Actions, Projects, Fork, Star, Tags',
+    );
 
     expect(transformText(once)).toBe(once);
   });
