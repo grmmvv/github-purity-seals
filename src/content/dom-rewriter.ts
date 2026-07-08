@@ -79,6 +79,8 @@ export function createDomRewriter(options: DomRewriterOptions): {
 } {
   let scheduled = false;
   const pendingRoots = new Set<Node>();
+  const processedTextValues = new WeakMap<Text, string>();
+  const processedAttributeValues = new WeakMap<Element, Map<(typeof attributeNames)[number], string>>();
 
   function rewriteTextNode(node: Text): void {
     const parent = node.parentElement;
@@ -87,10 +89,18 @@ export function createDomRewriter(options: DomRewriterOptions): {
       return;
     }
 
+    if (processedTextValues.get(node) === node.nodeValue) {
+      return;
+    }
+
     const nextValue = options.transformText(node.nodeValue);
 
     if (nextValue !== node.nodeValue) {
       node.nodeValue = nextValue;
+    }
+
+    if (node.nodeValue) {
+      processedTextValues.set(node, node.nodeValue);
     }
   }
 
@@ -105,11 +115,18 @@ export function createDomRewriter(options: DomRewriterOptions): {
       }
 
       const currentValue = element.getAttribute(attributeName);
+
+      if (getProcessedAttributeValue(element, attributeName) === currentValue) {
+        continue;
+      }
+
       const nextValue = options.transformText(currentValue);
 
       if (nextValue !== currentValue) {
         element.setAttribute(attributeName, nextValue ?? '');
       }
+
+      setProcessedAttributeValue(element, attributeName, element.getAttribute(attributeName) ?? '');
     }
   }
 
@@ -203,6 +220,24 @@ export function createDomRewriter(options: DomRewriterOptions): {
     }
 
     return Boolean(element.closest(skipSelector));
+  }
+
+  function getProcessedAttributeValue(
+    element: Element,
+    attributeName: (typeof attributeNames)[number],
+  ): string | undefined {
+    return processedAttributeValues.get(element)?.get(attributeName);
+  }
+
+  function setProcessedAttributeValue(
+    element: Element,
+    attributeName: (typeof attributeNames)[number],
+    value: string,
+  ): void {
+    const elementValues = processedAttributeValues.get(element) ?? new Map<(typeof attributeNames)[number], string>();
+
+    elementValues.set(attributeName, value);
+    processedAttributeValues.set(element, elementValues);
   }
 
   return {

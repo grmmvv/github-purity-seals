@@ -4,6 +4,8 @@ import { describe, expect, it } from 'vitest';
 import { createDomRewriter, installDomRewriter } from './dom-rewriter';
 
 const transformText = (value: string | null): string | null => value?.replaceAll('Repository', 'Reliquary') ?? value;
+const selfContainingTransformText = (value: string | null): string | null =>
+  value?.replaceAll('Release', 'Sacred Release') ?? value;
 
 describe('dom rewriter', () => {
   it('rewrites safe text nodes', () => {
@@ -94,6 +96,35 @@ describe('dom rewriter', () => {
     expect(dom.window.document.documentElement.getAttribute('data-omnissiah-observed')).toBe('true');
 
     observer.disconnect();
+  });
+
+  it('does not rewrite its own text node output again', () => {
+    const dom = createDom('<main><h1>Release</h1></main>');
+    const rewriter = createDomRewriter({
+      document: dom.window.document,
+      window: dom.window,
+      transformText: selfContainingTransformText,
+    });
+
+    rewriter.rewriteRoot(dom.window.document.body);
+    rewriter.rewriteRoot(dom.window.document.body);
+
+    expect(dom.window.document.querySelector('h1')?.textContent).toBe('Sacred Release');
+  });
+
+  it('does not rewrite its own attribute output again', () => {
+    const dom = createDom('<main><a title="Release">Release</a></main>');
+    const rewriter = createDomRewriter({
+      document: dom.window.document,
+      window: dom.window,
+      transformText: selfContainingTransformText,
+    });
+
+    rewriter.rewriteRoot(dom.window.document.body);
+    rewriter.rewriteRoot(dom.window.document.body);
+
+    expect(dom.window.document.querySelector('a')?.getAttribute('title')).toBe('Sacred Release');
+    expect(dom.window.document.querySelector('a')?.textContent).toBe('Sacred Release');
   });
 });
 

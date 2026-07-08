@@ -8,7 +8,7 @@ export interface Terminology {
 export function createTextTransformer(terminology: Terminology): (value: string | null) => string | null {
   const wordReplacements = new Map<string, string>(terminology.words);
   const wordPattern = new RegExp(
-    `\\b(${Array.from(wordReplacements.keys())
+    `\\b(?:${Array.from(wordReplacements.keys())
       .sort((a, b) => b.length - a.length)
       .map(escapeRegExp)
       .join('|')})\\b`,
@@ -26,8 +26,32 @@ export function createTextTransformer(terminology: Terminology): (value: string 
       transformed = transformed.replaceAll(source, target);
     }
 
-    return transformed.replace(wordPattern, (match) => wordReplacements.get(match) ?? match);
+    return transformed.replace(wordPattern, (match, offset: number) => {
+      const replacement = wordReplacements.get(match);
+
+      if (!replacement || isAlreadyInsideReplacement(transformed, match, offset, replacement)) {
+        return match;
+      }
+
+      return replacement;
+    });
   };
+}
+
+function isAlreadyInsideReplacement(value: string, source: string, offset: number, replacement: string): boolean {
+  const sourceOffsetInReplacement = replacement.indexOf(source);
+
+  if (sourceOffsetInReplacement < 0) {
+    return false;
+  }
+
+  const replacementStart = offset - sourceOffsetInReplacement;
+
+  if (replacementStart < 0) {
+    return false;
+  }
+
+  return value.slice(replacementStart, replacementStart + replacement.length) === replacement;
 }
 
 function escapeRegExp(value: string): string {

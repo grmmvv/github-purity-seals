@@ -48,8 +48,15 @@ describe('createTextTransformer', () => {
   });
 
   it('does not keep transforming already transformed text', () => {
-    const once = transformText('Pull Request checks passed');
+    const once = transformText('Pull Request checks passed with Release and releases');
 
     expect(transformText(once)).toBe(once);
+  });
+
+  it('does not repeat self-containing replacements', () => {
+    expect(transformText(transformText('Release'))).toBe('Sacred Release');
+    expect(transformText(transformText('release'))).toBe('sacred release');
+    expect(transformText(transformText('Releases'))).toBe('Sacred Releases');
+    expect(transformText(transformText('releases'))).toBe('sacred releases');
   });
 });
