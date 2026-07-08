@@ -116,16 +116,8 @@ describe('dom rewriter', () => {
     observer.disconnect();
   });
 
-  it('adds visual roles for transformed status and domain text', () => {
-    const dom = createDom(`
-      <main>
-        <span>Blessed</span>
-        <span>Tainted</span>
-        <span>Ritual</span>
-        <span>Sacred Release</span>
-        <span>Rite of Integration</span>
-      </main>
-    `);
+  it('does not add layout-affecting visual role markers', () => {
+    const dom = createDom('<main><span>Blessed</span><span>Tainted</span><span>Ritual</span></main>');
     const rewriter = createDomRewriter({
       document: dom.window.document,
       window: dom.window,
@@ -134,11 +126,7 @@ describe('dom rewriter', () => {
 
     rewriter.rewriteRoot(dom.window.document.body);
 
-    expect(dom.window.document.querySelectorAll('span')[0]?.getAttribute('data-omnissiah-role')).toBe('blessed');
-    expect(dom.window.document.querySelectorAll('span')[1]?.getAttribute('data-omnissiah-role')).toBe('tainted');
-    expect(dom.window.document.querySelectorAll('span')[2]?.getAttribute('data-omnissiah-role')).toBe('ritual');
-    expect(dom.window.document.querySelectorAll('span')[3]?.getAttribute('data-omnissiah-role')).toBe('relic');
-    expect(dom.window.document.querySelectorAll('span')[4]?.getAttribute('data-omnissiah-role')).toBe('inquisition');
+    expect(dom.window.document.querySelector('[data-omnissiah-role]')).toBeNull();
   });
 
   it('does not rewrite its own text node output again', () => {

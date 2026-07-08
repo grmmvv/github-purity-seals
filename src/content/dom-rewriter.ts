@@ -19,7 +19,6 @@ const elementNode = 1;
 const textNode = 3;
 const documentNode = 9;
 const attributeNames = ['aria-label', 'title', 'placeholder'] as const;
-const visualRoleAttribute = 'data-omnissiah-role';
 const skipElements = new Set([
   'CODE',
   'KBD',
@@ -174,10 +173,7 @@ export function createDomRewriter(options: DomRewriterOptions): {
       if (node.nodeType === textNode) {
         rewriteTextNode(node as Text);
       } else if (node.nodeType === elementNode) {
-        const element = node as Element;
-
-        rewriteAttributes(element);
-        markVisualRole(element);
+        rewriteAttributes(node as Element);
       }
     }
   }
@@ -227,47 +223,6 @@ export function createDomRewriter(options: DomRewriterOptions): {
     }
 
     return Boolean(element.closest(skipSelector));
-  }
-
-  function markVisualRole(element: Element): void {
-    if (shouldSkipElement(element)) {
-      return;
-    }
-
-    const text = `${element.textContent} ${element.getAttribute('aria-label') ?? ''} ${
-      element.getAttribute('title') ?? ''
-    }`;
-    const role = detectVisualRole(text);
-
-    if (role) {
-      element.setAttribute(visualRoleAttribute, role);
-    } else {
-      element.removeAttribute(visualRoleAttribute);
-    }
-  }
-
-  function detectVisualRole(value: string): string | null {
-    if (/\b(Blessed|Sanctified|Purity Trials Blessed)\b/i.test(value)) {
-      return 'blessed';
-    }
-
-    if (/\b(Tainted|Failed|Failure|Error|Corruption)\b/i.test(value)) {
-      return 'tainted';
-    }
-
-    if (/\b(Liturgies|Ritual|Rituals|Purity Trial|Purity Trials)\b/i.test(value)) {
-      return 'ritual';
-    }
-
-    if (/\b(Sacred Release|Sacred Releases|Sacred Relic|Sacred Relics)\b/i.test(value)) {
-      return 'relic';
-    }
-
-    if (/\b(Rite of Integration|Rites of Integration|Scrutiny|Scrutinies)\b/i.test(value)) {
-      return 'inquisition';
-    }
-
-    return null;
   }
 
   function getProcessedAttributeValue(
