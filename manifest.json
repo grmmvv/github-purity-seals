@@ -6,7 +6,7 @@
   "content_scripts": [
     {
       "matches": ["https://github.com/*"],
-      "js": ["dist/terminology/replacements.js", "dist/content/content.js"],
+      "js": ["dist/content/content.js"],
       "css": ["src/ui/github-theme.css"],
       "run_at": "document_idle"
     }

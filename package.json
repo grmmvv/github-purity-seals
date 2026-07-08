@@ -5,16 +5,17 @@
   "description": "Transform GitHub into a Forge World of the Adeptus Mechanicus.",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "npm run clean && esbuild src/content/content.ts --bundle --format=iife --target=es2022 --outfile=dist/content/content.js",
     "clean": "rm -rf dist",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "precommit": "lint-staged",
     "prepare": "husky",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "validate:manifest": "node scripts/validate-manifest.mjs",
-    "check": "npm run typecheck && npm run lint && npm run format:check && npm run build && npm run validate:manifest"
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test && npm run build && npm run validate:manifest"
   },
   "lint-staged": {
     "*.{css,json,md,mjs,ts,yml,yaml}": "prettier --write",
@@ -22,12 +23,14 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.31.0",
+    "esbuild": "^0.28.1",
     "eslint": "^9.31.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.36.0"
+    "typescript-eslint": "^8.36.0",
+    "vitest": "^4.1.10"
   },
   "license": "MIT"
 }

@@ -29,6 +29,7 @@ Extension files:
 
 - `manifest.json`
 - `src/terminology/replacements.ts`
+- `src/terminology/transform.ts`
 - `src/content/content.ts`
 - `src/ui/github-theme.css`
 

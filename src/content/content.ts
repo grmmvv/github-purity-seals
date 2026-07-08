@@ -1,14 +1,10 @@
+import { defaultTerminology } from '../terminology/replacements';
+import { createTextTransformer } from '../terminology/transform';
+
 (() => {
   'use strict';
 
-  const loadedTerminology = globalThis.GitHubPuritySealsTerminology;
-
-  if (!loadedTerminology) {
-    return;
-  }
-
-  const terminology: GitHubPuritySealsTerminologyData = loadedTerminology;
-
+  const transformText = createTextTransformer(defaultTerminology);
   const extensionMark = 'data-omnissiah-observed';
   const attributeNames = ['aria-label', 'title', 'placeholder'] as const;
 
@@ -28,21 +24,8 @@
     'CANVAS',
   ]);
 
-  const wordReplacements = new Map<string, string>(terminology.words);
-  const wordPattern = new RegExp(
-    `\\b(${Array.from(wordReplacements.keys())
-      .sort((a, b) => b.length - a.length)
-      .map(escapeRegExp)
-      .join('|')})\\b`,
-    'g',
-  );
-
   let scheduled = false;
   const pendingRoots = new Set<Node>();
-
-  function escapeRegExp(value: string): string {
-    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  }
 
   function isEditable(element: Element): boolean {
     return Boolean(
@@ -68,20 +51,6 @@
         'pre, code, kbd, samp, script, style, textarea, input, select, svg, canvas, .blob-code, .blob-code-content, .react-code-text',
       ),
     );
-  }
-
-  function transformText(value: string | null): string | null {
-    if (!value || !/[A-Za-z]/.test(value)) {
-      return value;
-    }
-
-    let transformed = value;
-
-    for (const [source, target] of terminology.phrases) {
-      transformed = transformed.replaceAll(source, target);
-    }
-
-    return transformed.replace(wordPattern, (match) => wordReplacements.get(match) ?? match);
   }
 
   function rewriteTextNode(node: Text): void {

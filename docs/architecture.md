@@ -4,10 +4,10 @@ The extension is intentionally small and presentation-only.
 
 ## Runtime
 
-`manifest.json` injects compiled scripts into `https://github.com/*`:
+`manifest.json` injects a compiled script into `https://github.com/*`:
 
-- `dist/terminology/replacements.js` defines terminology data.
-- `dist/content/content.js` rewrites safe text nodes and selected accessibility attributes.
+- `dist/content/content.js` contains bundled terminology data and rewrites safe text nodes and selected accessibility
+  attributes.
 
 The stylesheet `src/ui/github-theme.css` adds subtle visual treatment without changing layout or behavior.
 
@@ -37,4 +37,5 @@ The extension does not:
 
 ## Source Layout
 
-TypeScript source files live under `src/`. `npm run build` emits JavaScript into `dist/`, which is what Chrome loads.
+TypeScript source files live under `src/`. `npm run build` bundles the content script into `dist/`, which is what Chrome
+loads.
