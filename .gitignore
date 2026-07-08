@@ -147,3 +147,6 @@ dist/
 generate-personal-gpg-key.sh
 generate-personal-ssh-key.sh
 setup-personal-github.sh
+
+# Local working plan
+NEXT_STEPS.md
