@@ -97,16 +97,36 @@ describe('representative GitHub page smoke fixtures', () => {
         <h1>GitHub Actions</h1>
         <nav>Actions</nav>
         <button>All workflows</button>
+        <button>Run workflow</button>
+        <label>Filter workflow runs</label>
         <section>Workflow checks failed</section>
         <p>Waiting for checks</p>
+        <ol>
+          <li>Queued</li>
+          <li>In progress</li>
+          <li>Success</li>
+          <li>Failure</li>
+          <li>Cancelled</li>
+          <li>Skipped</li>
+        </ol>
       </main>
     `);
 
     expect(document.querySelector('h1')?.textContent).toBe('Liturgies');
     expect(document.querySelector('nav')?.textContent).toBe('Liturgies');
     expect(document.querySelector('button')?.textContent).toBe('All rituals');
+    expect(document.querySelectorAll('button')[1]?.textContent).toBe('Begin Ritual');
+    expect(document.querySelector('label')?.textContent).toBe('Filter ritual runs');
     expect(document.querySelector('section')?.textContent).toBe('Ritual purity trials tainted');
     expect(document.querySelector('p')?.textContent).toBe("Awaiting the Omnissiah's blessing");
+    expect(Array.from(document.querySelectorAll('ol li')).map((node) => node.textContent)).toEqual([
+      'Awaiting Rite',
+      'Ritual in Progress',
+      'Blessed',
+      'Tainted',
+      'Rite Cancelled',
+      'Rite Skipped',
+    ]);
   });
 
   it('rewrites release and artifact language', () => {

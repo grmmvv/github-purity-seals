@@ -18,6 +18,9 @@ describe('createTextTransformer', () => {
     expect(transformText('View commit history for this file')).toBe('View inscription chronicle for this schematic');
     expect(transformText('Source code')).toBe('Source Schematics');
     expect(transformText('New pull request')).toBe('New Rite of Integration');
+    expect(transformText('Workflow runs')).toBe('Ritual Runs');
+    expect(transformText('Run workflow')).toBe('Begin Ritual');
+    expect(transformText('Filter workflow runs')).toBe('Filter ritual runs');
   });
 
   it('uses explicit case-sensitive mappings', () => {
@@ -64,6 +67,18 @@ describe('createTextTransformer', () => {
     expect(transformText('View all files')).toBe('View all Schematics');
   });
 
+  it('covers workflow and check run status terms', () => {
+    expect(transformText('Queued In progress Success Failure Cancelled Skipped')).toBe(
+      'Awaiting Rite Ritual in Progress Blessed Tainted Rite Cancelled Rite Skipped',
+    );
+    expect(transformText('Neutral Timed out Action required')).toBe(
+      'Awaiting Judgment Rite Timed Out Tech-Priest Action Required',
+    );
+    expect(transformText('Status checks')).toBe('Purity Trials');
+    expect(transformText('All workflows')).toBe('All rituals');
+    expect(transformText('Filter by Status')).toBe('Filter by Purity State');
+  });
+
   it('preserves empty and null input', () => {
     expect(transformText('')).toBe('');
     expect(transformText(null)).toBeNull();
@@ -71,7 +86,7 @@ describe('createTextTransformer', () => {
 
   it('does not keep transforming already transformed text', () => {
     const once = transformText(
-      'Pull Request checks passed with Release and releases, Issues, Actions, Projects, Fork, Star, Tags, Activity, License',
+      'Pull Request checks passed with Release and releases, Issues, Actions, Projects, Fork, Star, Tags, Activity, License, Queued, Success, Failure',
     );
 
     expect(transformText(once)).toBe(once);

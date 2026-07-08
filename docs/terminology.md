@@ -11,13 +11,24 @@
 | Commit               | Inscription                     |
 | Workflow             | Ritual                          |
 | All workflows        | All rituals                     |
+| Workflow runs        | Ritual Runs                     |
+| Run workflow         | Begin Ritual                    |
 | GitHub Actions       | Liturgies                       |
 | Project              | Endeavor                        |
 | Security and quality | Purity and Integrity            |
 | Insight              | Augury                          |
 | Checks               | Purity Trials                   |
+| Status checks        | Purity Trials                   |
 | Passed               | Blessed                         |
 | Failed               | Tainted                         |
+| Queued               | Awaiting Rite                   |
+| In progress          | Ritual in Progress              |
+| Success              | Blessed                         |
+| Failure              | Tainted                         |
+| Cancelled            | Rite Cancelled                  |
+| Skipped              | Rite Skipped                    |
+| Timed out            | Rite Timed Out                  |
+| Action required      | Tech-Priest Action Required     |
 | Approved             | Sanctified                      |
 | Review Required      | Inquisitorial Approval Required |
 | Deploy               | Dispatch to Holy Terra          |
