@@ -35,7 +35,7 @@ const skipElements = new Set([
 ]);
 
 const skipSelector =
-  'pre, code, kbd, samp, script, style, textarea, input, select, svg, canvas, .blob-code, .blob-code-content, .react-code-text';
+  'pre, code, kbd, samp, script, style, textarea, input, select, svg, canvas, [aria-label$=", (File)"], [aria-label$=", (Directory)"], .blob-code, .blob-code-content, .react-code-text';
 const editableSelector = "input, textarea, select, [contenteditable=''], [contenteditable='true'], [role='textbox']";
 
 export function installDomRewriter(options: DomRewriterOptions): MutationObserver {

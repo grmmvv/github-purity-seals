@@ -14,6 +14,10 @@ describe('createTextTransformer', () => {
     expect(transformText('Security and quality')).toBe('Purity and Integrity');
     expect(transformText('Latest commit')).toBe('Latest Inscription');
     expect(transformText('Folders and files')).toBe('Vaults and Schematics');
+    expect(transformText('Repository files navigation')).toBe('Reliquary schematics navigation');
+    expect(transformText('View commit history for this file')).toBe('View inscription chronicle for this schematic');
+    expect(transformText('Source code')).toBe('Source Schematics');
+    expect(transformText('New pull request')).toBe('New Rite of Integration');
   });
 
   it('uses explicit case-sensitive mappings', () => {
@@ -50,6 +54,12 @@ describe('createTextTransformer', () => {
     expect(transformText('Fork Star Tags Notifications About Public History')).toBe(
       'Diverge Benediction Sigils Vox Alerts Dossier Unsealed Chronicle',
     );
+    expect(transformText('Readme License Activity Languages Topics Contributors Watchers')).toBe(
+      'Canticle Writ of Sanction Activity Log Tongues Runes Adepts Watch Servitors',
+    );
+    expect(transformText('Author Assignee Labels Milestones Reviews Conversation Assets')).toBe(
+      'Scribe Assigned Adept Seals Omens Scrutinies Vox Log Sacred Relics',
+    );
     expect(transformText('Go to file')).toBe('Locate Schematic');
     expect(transformText('View all files')).toBe('View all Schematics');
   });
@@ -61,7 +71,7 @@ describe('createTextTransformer', () => {
 
   it('does not keep transforming already transformed text', () => {
     const once = transformText(
-      'Pull Request checks passed with Release and releases, Issues, Actions, Projects, Fork, Star, Tags',
+      'Pull Request checks passed with Release and releases, Issues, Actions, Projects, Fork, Star, Tags, Activity, License',
     );
 
     expect(transformText(once)).toBe(once);

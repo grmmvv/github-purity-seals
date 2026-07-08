@@ -150,3 +150,8 @@ setup-personal-github.sh
 
 # Local working plan
 NEXT_STEPS.md
+
+# Playwright MCP local artifacts
+.playwright-mcp/
+openfga-*.json
+openfga-snapshot.md

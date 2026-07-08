@@ -84,6 +84,23 @@ describe('dom rewriter', () => {
     expect(dom.window.document.querySelector('.react-code-text')?.textContent).toBe('Repository');
   });
 
+  it('skips GitHub file and directory name links', () => {
+    const dom = createDom(`
+      <a aria-label="README.md, (File)">Repository</a>
+      <a aria-label="assets, (Directory)">Repository</a>
+    `);
+    const rewriter = createDomRewriter({
+      document: dom.window.document,
+      window: dom.window,
+      transformText,
+    });
+
+    rewriter.rewriteRoot(dom.window.document.body);
+
+    expect(dom.window.document.querySelector('[aria-label="README.md, (File)"]')?.textContent).toBe('Repository');
+    expect(dom.window.document.querySelector('[aria-label="assets, (Directory)"]')?.textContent).toBe('Repository');
+  });
+
   it('marks the page when installed', () => {
     const dom = createDom('<main>Repository</main>');
 
